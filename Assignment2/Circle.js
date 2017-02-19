@@ -1,59 +1,50 @@
 "use strict";
 
 class Circle{
-  constructor(x, y, xspd, yspd) {
+  constructor(x, y, y_speed_init) {
     this.x = x;
     this.y = y;
     this.dia = random(5, 10);
-    this.xspeed = xspd;
-    this.yspeed = yspd;
+    this.x_speed = 0;
+    this.y_speed = y_speed_init;
     this.distance = 0;
-    this.isExploded = false;
   }
 
-  move(){
-    this.x += this.xspeed;
-    this.y += this.yspeed;
+  drawCircle(x, y, color){
+    noStroke();
+    fill(color);
+    ellipse(x, y, this.dia, this.dia)
   }
 
-  reduceSpeed(amt){
-    this.xspeed *= amt;
-    this.yspeed *= amt;
-  }
-
-  displayNormal(){
-    if (this.isExploded){
-      this.reduceSpeed(0.9);
-    }
-    push();
-      fill(255);
-      noStroke();
-      ellipse(this.x, this.y, this.dia, this.dia);
-    pop();
+  moveCircle(){
+    this.y += this.y_speed;
+    this.x += this.x_speed;
   }
 
   applyGravity(g){
-    this.yspeed += g;
+    this.y_speed += g;
   }
 
-  explod(){
-    this.xspeed = random (-1, 1) * 20;
-    this.yspeed = random (-1, 1) * 20;
-    this.isExploded = true;
+  accelerate(amt){
+    this.x_speed *= amt;
+    this.y_speed *= amt;
   }
 
-  displayAfterExp(){
-    this.distance += 0.2;
+  fancyRotate(blink){
+    this.distance += 0.3;
     var angle;
-    for (angle = 0; angle < 360; angle+=60){
-      // i for angle
+    for (angle = 0; angle < 360; angle += 60){
       push();
-      translate(this.x, this.y);
-      rotate(frameCount * 0.02);
-      rotate(radians(angle));
-      fill(255 - this.distance * 2);
-      noStroke();
-      ellipse(0, 0+this.distance, this.dia, this.dia);
+        translate(this.x, this.y);
+        rotate(radians(angle));
+        noStroke();
+        if (blink){
+          this.drawCircle(0, 0 + this.distance, random(64, 255) - this.distance * 7)
+        }
+        else{
+          rotate(frameCount);
+          this.drawCircle(0, 0 + this.distance, 255 - this.distance * 7)
+        }
       pop();
     }
   }
