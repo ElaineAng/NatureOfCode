@@ -1,27 +1,33 @@
-var pos, vel;
-var centerVec, mouseVec;
+const DEBUG_MODE = false;
+var p, mouseVec, ps, i;
 
 function setup(){
-  createCanvas(600, 600);
-  centerVec = createVector(width/2, height/2);
+  createCanvas(800, 600);
   background(0);
+  ps = [];
+  for (i=0; i<10; i++){
+    p = new Particle(random(0, 800), random(0,600), random(5, 30));
+    ps.push(p);
+  }
+
+  if (DEBUG_MODE){
+    frameRate(10);
+  }
 }
 
 function draw(){
-  //background(0);
-  translate(width/2, height/2);
-  mouseVec = createVector(random(100, 200), random(200, 400));
-  var vector = p5.Vector.sub(mouseVec, centerVec);
 
-  var vecFromAngle = p5.Vector.fromAngle(random(PI))
-  vecFromAngle.mult(random(100, 300));
+  background(0);
 
+  mouseVec = createVector(mouseX, mouseY);
+  for (i=0; i<ps.length; i++){
+    ps[i].acc = p5.Vector.sub(mouseVec, ps[i].pos);
+    ps[i].acc.mult(random(0.001, 0.004));
 
-  stroke(255);
-  line(0, 0, vecFromAngle.x, vecFromAngle.y);
-  //line(0, 0, vector.x, vector.y);
+    //ps[i].vel.mult(random(0.9, 1));
+    ps[i].update();
+    ps[i].display();
 
-  noStroke();
-  fill(255);
-  ellipse(vecFromAngle.x, vecFromAngle.y, 10, 10);
+  }
+
 }
