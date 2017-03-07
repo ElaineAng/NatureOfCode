@@ -1,86 +1,111 @@
 "use strict";
-var p, gravity;
-const R = 30;
+
+const EARTH_RAD = 150;
+const WATER_RAD = 300;
+const PLT_X, PLT_Y;
+
+var earth, water, gravity, resistance;
+var particles = [];
 
 function setup() {
-  createCanvas(1000, 600);
-  background(0);
-  p = new Particle(0, 100, R);
-  gravity = createVector(0, 5);
-  frameRate(5);
+  createCanvas(600, 600);
+  PLT_X = width/2;
+  PLT_Y = height/2;
+  earth = new Planet(PLT_X, PLT_Y, EARTH_RAD);
+  water = new Planet(PLT_X, PLT_Y, WATER_RAD);
+  particles.push(new Particle(random(width), random(height)));
+  //frameRate(5);
 }
 
 function draw() {
-  // background(0);
-  if (p.show){
-    stroke(255, 0, 0);
-    line(0, 100, width, 100);
-    line(0, height - 150, width, height - 150);
+  background(0);
+
+  earth.display();
+  water.display();
+  for (var i = 0; i < particles.length; i++) {
+    var p = particles[i];
+
+    gravity = createVector(p.pos.x, p.pos.y);
+    gravity = p5.Vector.sub(earth.pos, gravity);
+    gravity.setMag(5);
+    // p.vel.setMag(5);
+    // stroke(255, 0, 0);
+    // line(p.pos.x, p.pos.y, earth.pos.x, earth.pos.y);
+
+    p.applyForce(gravity);
+    //p.applyForce(resistance)
+    //p.checkBoundaries();
     p.update();
     p.display();
-    p.checkBoundaries();
-    if (!p.touchGround){
-      p.applyForce(gravity);
-    }
-    p.touchGround = false;
   }
+
 }
 
-
-class Particle {
-  constructor(x, y, r) {
+class Planet{
+  constructor(x, y, dia){
     this.pos = createVector(x, y);
-    this.vel = createVector(3, 0.5);
-    this.acc = createVector(0, 0);
-    this.r = r;
-    this.show = true;
-    this.touchGround = false;
+    this.dia = dia;
+    this.cGravity = 1.5;
   }
 
   update(){
-    this.vel.add(this.acc);
-    this.pos.add(this.vel);
 
-    this.acc.mult(0);
   }
 
   display(){
     push();
-    translate(this.pos.x, this.pos.y);
-    fill(255);
-    ellipse(0, 0, this.r, this.r);
-    stroke(255, 0, 0)
-    line(0, 0, this.vel.x, this.vel.y);
+    noFill();
+    stroke(0, 0, 255);
+    ellipse(this.pos.x, this.pos.y, this.dia);
     pop();
   }
+}
 
-  applyForce(force){
-    this.acc.add(force);
+class Particle {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = createVector(random(-5,5), random(-5,5));
+    this.acc = createVector();
+    this.dia = 2;
+    this.mass = random(5, 10);
   }
-
-  stop(){
-     this.show = false;
+  applyForce(f) {
+    f.div(this.mass);
+    this.acc.add(f);
+  }
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+  display() {
+    push();
+    translate(this.pos.x, this.pos.y);
+    noStroke();
+    fill(255);
+    ellipse(0, 0, this.dia * this.mass, this.dia * this.mass);
+    pop();
   }
   checkBoundaries() {
-
     // x
     if (this.pos.x < 0) {
       this.pos.x = 0;
       this.vel.x = -this.vel.x;
     } else if (this.pos.x > width) {
-      stop()
-      // this.pos.x = width;
-      // this.vel.x = -this.vel.x;
+      this.pos.x = width;
+      this.vel.x = -this.vel.x;
     }
     // y
-
-    if (this.pos.y <= 0) {
+    if (this.pos.y < 0) {
       this.pos.y = 0;
       this.vel.y = -this.vel.y;
-    } else if (this.pos.y > height - 150) {
-      //this.pos.y = height - 150;
+    } else if (this.pos.y > height) {
+      this.pos.y = height;
       this.vel.y = -this.vel.y;
-      this.touchGround = true;
     }
   }
+
+  // checkPlanet(){
+  //   if (p5.Vector.sub(this.pos, ))
+  // }
 }
