@@ -1,111 +1,37 @@
 "use strict";
 
-const EARTH_RAD = 150;
-const WATER_RAD = 300;
-const PLT_X, PLT_Y;
 
-var earth, water, gravity, resistance;
-var particles = [];
+var p1, p2;
 
 function setup() {
-  createCanvas(600, 600);
-  PLT_X = width/2;
-  PLT_Y = height/2;
-  earth = new Planet(PLT_X, PLT_Y, EARTH_RAD);
-  water = new Planet(PLT_X, PLT_Y, WATER_RAD);
-  particles.push(new Particle(random(width), random(height)));
-  //frameRate(5);
+  createCanvas(500, 600);
+  background(0);
+
+  p1 = new Particle(100, height/2, 5, 5);
+  p2 = new Particle(width/2, height/2, 5, 15);
+  p1.setSpeed(10, 0);
 }
 
 function draw() {
   background(0);
 
-  earth.display();
-  water.display();
-  for (var i = 0; i < particles.length; i++) {
-    var p = particles[i];
-
-    gravity = createVector(p.pos.x, p.pos.y);
-    gravity = p5.Vector.sub(earth.pos, gravity);
-    gravity.setMag(5);
-    // p.vel.setMag(5);
-    // stroke(255, 0, 0);
-    // line(p.pos.x, p.pos.y, earth.pos.x, earth.pos.y);
-
-    p.applyForce(gravity);
-    //p.applyForce(resistance)
-    //p.checkBoundaries();
-    p.update();
-    p.display();
+  p1.checkEdges();
+  if (!p1.hit){
+    p1.applyAttraction(p2);
   }
 
-}
+  p1.update();
+  p1.display();
 
-class Planet{
-  constructor(x, y, dia){
-    this.pos = createVector(x, y);
-    this.dia = dia;
-    this.cGravity = 1.5;
-  }
-
-  update(){
-
+  p2.checkEdges();
+  if (!p2.hit){
+    p2.applyAttraction(p1);
   }
 
-  display(){
-    push();
-    noFill();
-    stroke(0, 0, 255);
-    ellipse(this.pos.x, this.pos.y, this.dia);
-    pop();
-  }
-}
+  p2.update();
+  p2.display();
 
-class Particle {
-  constructor(x, y) {
-    this.pos = createVector(x, y);
-    this.vel = createVector(random(-5,5), random(-5,5));
-    this.acc = createVector();
-    this.dia = 2;
-    this.mass = random(5, 10);
-  }
-  applyForce(f) {
-    f.div(this.mass);
-    this.acc.add(f);
-  }
-  update() {
-    this.vel.add(this.acc);
-    this.pos.add(this.vel);
-    this.acc.mult(0);
-  }
-  display() {
-    push();
-    translate(this.pos.x, this.pos.y);
-    noStroke();
-    fill(255);
-    ellipse(0, 0, this.dia * this.mass, this.dia * this.mass);
-    pop();
-  }
-  checkBoundaries() {
-    // x
-    if (this.pos.x < 0) {
-      this.pos.x = 0;
-      this.vel.x = -this.vel.x;
-    } else if (this.pos.x > width) {
-      this.pos.x = width;
-      this.vel.x = -this.vel.x;
-    }
-    // y
-    if (this.pos.y < 0) {
-      this.pos.y = 0;
-      this.vel.y = -this.vel.y;
-    } else if (this.pos.y > height) {
-      this.pos.y = height;
-      this.vel.y = -this.vel.y;
-    }
-  }
+  p1.detectBoundary(p2);
+  p2.detectBoundary(p1);
 
-  // checkPlanet(){
-  //   if (p5.Vector.sub(this.pos, ))
-  // }
 }
