@@ -5,12 +5,12 @@ function setup() {
 
 
 function draw() {
-  var freq = frameCount * 0.05;
-  var amp = 100;
-  var sinValue = sin(freq) * amp;
+  var freq = frameCount * 0.01;
+  var amp = 80;
+  var noiseValue = (noise(freq)-0.5) * amp;
 
   var x = frameCount % width;
-  var y = height/2 + sinValue;
+  var y = height/2 + noiseValue;
   noStroke();
   fill(255);
   ellipse(x,y,3,3);
