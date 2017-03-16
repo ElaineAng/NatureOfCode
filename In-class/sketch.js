@@ -11,8 +11,12 @@ function draw() {
   stroke(255);
   line (centerVector.x, centerVector.y, mouseVector.x, mouseVector.y);
 
-  var vector = p5.Vector.sub(mouseVector, centerVector);
-  var angle = vector.heading();
+  // var vector = p5.Vector.sub(mouseVector, centerVector);
+  // var angle = vector.heading();
+  // heading() is doing the same thing as below:
+  var angle = atan2(mouseVector.y - centerVector.y, mouseVector.x- centerVector.x);
+
+  
 
   fill(255);
   noStroke();
