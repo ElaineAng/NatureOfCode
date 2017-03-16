@@ -5,27 +5,16 @@ function setup() {
 
 
 function draw() {
-  background(0);
-  var centerVector = createVector(width/2, height/2);
-  var mouseVector = createVector(mouseX, mouseY);
-  stroke(255);
-  line (centerVector.x, centerVector.y, mouseVector.x, mouseVector.y);
+  var freq = frameCount * 0.05;
+  var amp = 100;
+  var sinValue = sin(freq) * amp;
 
-  // var vector = p5.Vector.sub(mouseVector, centerVector);
-  // var angle = vector.heading();
-  // heading() is doing the same thing as below:
-  var angle = atan2(mouseVector.y - centerVector.y, mouseVector.x- centerVector.x);
-
-  
-
+  var x = frameCount % width;
+  var y = height/2 + sinValue;
+  noStroke();
   fill(255);
-  noStroke();
-  text(round(degrees(angle)), mouseVector.x, mouseVector.y);
+  ellipse(x,y,3,3);
 
-
-  translate(width/2, height/2);
-  rotate(angle);
-  fill(255, 0, 0);
-  noStroke();
-  triangle(0, 0, -30, -10, -30, 10);
+  stroke(100);
+  line(0, height/2, width, height/2);
 }
