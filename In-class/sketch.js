@@ -5,16 +5,20 @@ function setup() {
 
 
 function draw() {
-  var freq = frameCount * 0.01;
-  var amp = 80;
-  var noiseValue = (noise(freq)-0.5) * amp;
+  var resolution = 2;
+  for (var y=0; y<height; y+=resolution){
+    for (var x=0; x<width; x+=resolution){
+      // var freq = (x + y*0.1 + frameCount) * 0.05;
+      var freq1 = (frameCount+x) * 0.02;
+      var freq2 = (frameCount+y) * 0.01;
+      var amp = 1;
+      var noiseValue = noise(freq1, freq2) * amp;
+      var white = map(noiseValue, 0, 1, 0, 255);
 
-  var x = frameCount % width;
-  var y = height/2 + noiseValue;
-  noStroke();
-  fill(255);
-  ellipse(x,y,3,3);
-
-  stroke(100);
-  line(0, height/2, width, height/2);
+      noStroke();
+      fill(white);
+      rect(x, y, resolution, resolution);
+    }
+  }
+  //noLoop();
 }
