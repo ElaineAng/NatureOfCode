@@ -1,55 +1,40 @@
 "use strict";
 
-var p;
+var sinArray = [];
+var cosArray = [];
+var sinCosResolution = 360;
+
+
 function setup() {
   createCanvas(500, 600);
   background(0);
 
-  p = new Pendulum(10, 10, 100);
+  for (var i=0; i<sinCosResolution; i++){
+    var angle = map(i, 0, sinCosResolution, 0, TWO_PI);
+    sinArray[i] = sin(angle);
+    cosArray[i] = cos(angle);
+  }
 }
 
 
 function draw() {
   background(0);
-  p.display();
+
+  translate(width/2, height/2);
+  var cosValue = mCos(frameCount * 0.1) * 100;
+  var sinValue = mSin(frameCount * 0.1) * 100;
+
+  ellipse(cosValue, sinValue, 10, 10);
 }
 
-class Pendulum{
-  constructor(x, y, len){
-    this.origin = createVector(x, y);
-    this.armLength = len;
-    this.ball = createVector();
-    this.ballMass = 50;
+function mSin(radians){
+  var index = map(radians % TWO_PI, 0, TWO_PI, 0, sinCosResolution);
+  index = int(index);
+  return sinArray[index];
+}
 
-    this.angle = 0;
-    this.aVel = 0;
-    this.aAcc = 0;
-
-    this.damping = 0.98;
-  }
-
-  updateBallPosition(){
-      this.ball.x = cos(this.angle) * this.armLength;
-      this.ball.y = sin(this.angle) * this.armLength;
-
-  }
-
-  display(){
-    push();
-    translate(this.origin.x, this.origin.y);
-
-    // arm
-    stroke(255);
-    strokeWeight(3);
-    line(0, 0, this.ball.x, this.ball.y);
-
-    //anchor (origin)
-    fill (255);
-    noStroke(0);
-    rectMode(CENTER);
-    rect(0, 0, 20, 20);
-
-    ellipse(this.ball.x, this.ball.y, this.ball.mass, this.ball.mass);
-    pop();
-  }
+function mCos(radians){
+  var index = map(radians % TWO_PI, 0, TWO_PI, 0, sinCosResolution);
+  index = int(index);
+  return cosArray[index];
 }
