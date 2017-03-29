@@ -1,4 +1,4 @@
-const R = 1 ;
+const R = 1;
 const WIDTH = 1200;
 const HEIGHT = 600;
 const AMP = 15;
@@ -7,24 +7,35 @@ const FREQ = 0.005;
 const GRAVITY = 0;
 const SPRING = 1;
 
-var num_circle;
+const RED = 0;
+const GREEN = 1;
+const BLUE = 2;
+
+var num_circle = -1;
+var colorScheme = -1;
+
 var drop = false;
+var transition = false;
 var reset = false;
 var random_speed = false;
+
+var trans_comp_count = 0;
 
 function setup() {
   createCanvas(WIDTH, HEIGHT);
   background(0);
 
-
   circles = [];
+  counter = 0;
   for (var i=R; i<width; i+= 2*R){
-    circles.push(new Circle(i, 0, R, AMP, FREQ));
+    circles.push(new Circle(counter, i, 0, R, AMP, FREQ));
+    counter += 1;
   }
   num_circle = circles.length;
 }
 
 function draw() {
+
   if (drop){
     background(0);
     for (var i=0; i<num_circle; i++){
@@ -40,17 +51,20 @@ function draw() {
   } else{
     background(0, 10);
     for (var i=0; i<num_circle; i++){
-      if (reset){
-        circles[i].reset();
-      }
       circles[i].dropMode = false;
-      circles[i].applyForce(SPRING);
-      circles[i].update();
+      if (transition){
+        circles[i].transition();
+      }
+      if (trans_comp_count >= num_circle){
+        transition = false;
+      }
+      if (!transition){
+        circles[i].applyForce(SPRING);
+        circles[i].update();
+      }
       circles[i].draw();
     }
-    reset = false;
   }
-  // circles[frameCount%num_circle].setSize();
 }
 
 function keyPressed(){
@@ -70,8 +84,15 @@ function keyPressed(){
 
   // whitespace
   if (keyCode == 32){
-    reset = true;
+    trans_comp_count = 0;
     random_speed = true;
+
+    if (drop){
+      transition = true;
+      for (var i=0; i<num_circle; i++){
+        circles[i].isTransitioning = true;
+      }
+    }
     drop = ~ drop;
     background(0);
   }
@@ -88,5 +109,19 @@ function keyPressed(){
     for (var i=0; i<num_circle; i++){
       circles[i].vel.x = Math.abs(circles[i].vel.x);
     }
+  }
+
+  // "r"
+  if (keyCode == 82){
+    colorScheme = RED;
+  }
+
+  // "g"
+  if (keyCode == 71){
+    colorScheme = GREEN;
+  }
+
+  if (keyCode == 66){
+    colorScheme = BLUE;
   }
 }
