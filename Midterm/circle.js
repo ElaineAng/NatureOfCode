@@ -52,9 +52,16 @@ class Circle{
       fill(this.rgb, 255, this.rgb);
     }else if (colorScheme == BLUE){
       fill(this.rgb, this.rgb, 255);
+    }else if (colorScheme == WHITE){
+      fill(255);
     }
 
-    ellipse(this.pos.x, this.pos.y, this.r*2);
+    if (!params.debugMode){
+      ellipse(this.pos.x, this.pos.y, this.r*2);
+    } else{
+      ellipse(this.pos.x, this.pos.y, R*2);
+    }
+
   }
 
   applyForce(f){
