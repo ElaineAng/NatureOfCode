@@ -1,32 +1,23 @@
-"use strict";
-const PAD = 50;
-var particles = [];
+var bal, spr;
+
 
 function setup(){
   createCanvas(500, 600);
+  bal = new Ball(width/2 + 150, height/2+250);
+  spr = new Spring(width/2, height/2, 100);
 }
 
 function draw(){
-
   background(0);
-  particles.push(new Particle(width/2, height/2));
+  spr.connect(bal);
 
-  for (var i=0; i<particles.length; i++){
-    var p = particles[i];
-    p.update();
-    p.display();
-    p.checkOutOfCanvas();
-    if (p.isDone){
-      particles.splice(i, 1);
-    }
-  }
 
-  if (particles.length > 300){
-    particles.splice(0, 1);
-  }
-  stroke(255, 0, 0);
-  line(PAD, PAD, width-PAD, PAD);
-  line(width-PAD, PAD, width-PAD, height-PAD);
-  line(PAD, height-PAD, width-PAD, height-PAD);
-  line(PAD, PAD, PAD, height-PAD);
+  var gravity = createVector(0, 2);
+  bal.applyForce(gravity);
+
+  bal.update();
+  bal.drag(); 
+
+  spr.display(bal);
+  bal.display();
 }
