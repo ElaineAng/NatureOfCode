@@ -15,7 +15,8 @@ class Ball{
   display(){
     push();
     stroke(255);
-    fill(200);
+    // fill(200);
+    length =
     ellipse(this.pos.x, this.pos.y, this.rad*2, this.rad*2);
     pop();
   }
@@ -40,9 +41,11 @@ class Ball{
     }
   }
 
-  drag(){
+  drag(s){
     var distance = dist(mouseX, mouseY, this.pos.x, this.pos.y);
-    if (mouseIsPressed && distance < this.rad){
+    var distToAnc = p5.Vector.sub(this.pos, s.anchor.copy()).mag();
+    if (mouseIsPressed && distance < this.rad &&
+      distToAnc>2*CONN_LEN+this.rad && distToAnc<2*CONN_LEN+MAX_LEN_S+this.rad){
       this.isDragging = true;
       this.pos.x = mouseX;
       this.pos.y = mouseY;

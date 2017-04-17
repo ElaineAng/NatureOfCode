@@ -1,5 +1,9 @@
-var bal, spr;
 const WALL = 30;
+const MAX_LEN_S = 300;
+const CONN_LEN = 20;
+const SECTION = 6;
+var SEC_LEN = MAX_LEN_S/SECTION/2;
+var bal, spr;
 
 function setup(){
   createCanvas(500, 600);
@@ -15,6 +19,7 @@ function draw(){
   line(width/2 - 100, WALL, width/2+100, WALL);
 
 
+
   if (!bal.isDragging){
     spr.connect(bal);
     var gravity = createVector(0, 2);
@@ -23,7 +28,8 @@ function draw(){
   bal.checkWall();
   bal.update();
 
-  bal.drag();
+  bal.drag(spr);
+
 
   spr.display(bal);
   bal.display();
