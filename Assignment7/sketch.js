@@ -18,8 +18,6 @@ function draw(){
   strokeWeight(3);
   line(width/2 - 100, WALL, width/2+100, WALL);
 
-
-
   if (!bal.isDragging){
     spr.connect(bal);
     var gravity = createVector(0, 2);
@@ -29,7 +27,6 @@ function draw(){
   bal.update();
 
   bal.drag(spr);
-
 
   spr.display(bal);
   bal.display();

@@ -14,9 +14,8 @@ class Ball{
 
   display(){
     push();
-    stroke(255);
-    // fill(200);
-    length =
+    noStroke();
+    fill(200);
     ellipse(this.pos.x, this.pos.y, this.rad*2, this.rad*2);
     pop();
   }
