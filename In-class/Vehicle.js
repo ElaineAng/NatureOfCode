@@ -19,16 +19,20 @@ class Vehicle{
     this.maxForce = 1;
   }
 
-  seek(target){
-    if (!this.found){
-      var desired = p5.Vector.sub(target, this.pos);
-      desired.normalize();
-      desired.mult(this.maxSpeed);
-      var steer = p5.Vector.sub(desired, this.vel);
-      steer.limit(this.maxForce);
-      this.applyForce(steer);
-    }
+  flow(angle){
+
   }
+
+  // seek(target){
+  //   if (!this.found){
+  //     var desired = p5.Vector.sub(target, this.pos);
+  //     desired.normalize();
+  //     desired.mult(this.maxSpeed);
+  //     var steer = p5.Vector.sub(desired, this.vel);
+  //     steer.limit(this.maxForce);
+  //     this.applyForce(steer);
+  //   }
+  // }
 
   applyForce(force){
     this.acc.add(force);
@@ -38,8 +42,8 @@ class Vehicle{
     push();
     translate(this.pos.x, this.pos.y);
     rotate(this.angle)
-    stroke(255);
-    fill(200);
+    noStroke();
+    fill(0);
 
     triangle(0, 0, -20, -8, -20, 8);
     pop();
