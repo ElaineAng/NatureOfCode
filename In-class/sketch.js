@@ -1,17 +1,27 @@
+var v;
 
 function setup() {
   createCanvas(500, 600);
-}
+  v = new Vehicle(width/2, height/2);
 
+}
 
 function draw() {
   background(255);
 
-  var freq = frameCount * 0.01;
-  var amp = TWO_PI;
-  var val = noise(freq) * amp;
+  var vCenter = createVector(width/2, height/2);
+  var vMouse = createVector(mouseX, mouseY);
+  var vector = p5.Vector.sub(vMouse, vCenter);
+
+  push();
   translate(width/2, height/2);
-  rotate(val);
   stroke(0);
-  line(0, 0, 200, 0);
+  line(0, 0, vector.x, vector.y);
+  pop();
+
+  v.flow(vector.heading());
+  v.update();
+  v.checkEdges();
+  v.display();
+
 }
