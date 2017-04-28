@@ -1,27 +1,21 @@
-var v;
+var boids = [];
 
 function setup() {
-  createCanvas(500, 600);
-  v = new Vehicle(width/2, height/2);
-
+  createCanvas(1200, 600);
+  for (var i = 0; i < 50; i++) {
+    boids.push(new Boid(width/2, height/2));
+  }
 }
 
 function draw() {
-  background(255);
+  background(0);
 
-  var vCenter = createVector(width/2, height/2);
-  var vMouse = createVector(mouseX, mouseY);
-  var vector = p5.Vector.sub(vMouse, vCenter);
-
-  push();
-  translate(width/2, height/2);
-  stroke(0);
-  line(0, 0, vector.x, vector.y);
-  pop();
-
-  v.flow(vector.heading());
-  v.update();
-  v.checkEdges();
-  v.display();
-
+  for (var i = 0; i < boids.length; i++) {
+    var b = boids[i];
+    b.flock(boids);
+    b.cohesion(boids);
+    b.update();
+    b.checkEdges();
+    b.display();
+  }
 }
