@@ -2,7 +2,7 @@
 function setup() {
   createCanvas(1200, 600);
   background(0);
-  frameRate(5);
+  frameRate(30);
 }
 
 function draw() {
@@ -26,7 +26,7 @@ function branch(len){
 
   if (len > 15){
     translate(0, -len);
-    var angle = PI/6 * random(0.8, 1.2);
+    var angle = PI/6;
     var newlen = len * 4/5;
     var noiseVal = noise(frameCount * 0.01) * 0.2;
     push();
