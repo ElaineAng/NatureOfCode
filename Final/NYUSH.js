@@ -1,10 +1,10 @@
-const GL = 200;
+const BN = 150;
+var boids = [];
 
 var N, Y, U;    // three letters that we control
 var curp, curl; // current point and current letter
 var allowDrag;
 var apts;
-
 
 function setup(){
   createCanvas(1200, 600);
@@ -53,11 +53,25 @@ function setup(){
 
   allowDrag = 0;
 
+  // setup for flocking
+  for (var i = 0; i < BN; i++) {
+    boids.push(new Boid(width/2, height/2));
+  }
 }
 
 function draw(){
   background(0, 77, 102);
   noFill();
+
+  // flocking
+  for (var i = 0; i < boids.length; i++) {
+    var b = boids[i];
+    b.flock(boids);
+    b.cohesion(boids);
+    b.update();
+    b.checkEdges();
+    b.display();
+  }
 
   // NYU
   stroke(255);
