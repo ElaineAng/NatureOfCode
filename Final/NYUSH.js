@@ -1,4 +1,6 @@
-const BN = 150;
+const BN = 50;
+const SZ = 60;
+const GL = 200;
 var boids = [];
 
 var N, Y, U;    // three letters that we control
@@ -8,22 +10,23 @@ var apts;
 
 function setup(){
   createCanvas(1200, 600);
-  background(0, 77, 102);
-  bnx = width/4; bny = height/2;
-  np1 = createVector(bnx - 50, bny + 50);
-  np2 = createVector(bnx - 50, bny - 50);
-  np3 = createVector(bnx + 50, bny + 50);
-  np4 = createVector(bnx + 50, bny - 50);
+  // background(0, 77, 102);
+  bgc();
+  bnx = width/4; bny = height/4;
+  np1 = createVector(bnx - SZ, bny + SZ);
+  np2 = createVector(bnx - SZ, bny - SZ);
+  np3 = createVector(bnx + SZ, bny + SZ);
+  np4 = createVector(bnx + SZ, bny - SZ);
   var nps = [];
   nps.push(np1);
   nps.push(np2);
   nps.push(np3);
   nps.push(np4);
 
-  byx = width/2; byy = height/2;
-  yp1 = createVector(byx - 50, byy - 50);
-  yp2 = createVector(byx + 50, byy - 50);
-  yp3 = createVector(byx, byy + 60);
+  byx = width/2; byy = height/4;
+  yp1 = createVector(byx - SZ, byy - SZ);
+  yp2 = createVector(byx + SZ, byy - SZ);
+  yp3 = createVector(byx, byy + SZ*1.2);
   yp4 = createVector(byx, byy);
   var yps = [];
   yps.push(yp1);
@@ -31,11 +34,11 @@ function setup(){
   yps.push(yp3);
   yps.push(yp4);
 
-  bux = 3*width/4; buy = height/2;
-  up1 = createVector(bux - 50, buy - 50);
-  up2 = createVector(bux - 50, buy + 90);
-  up3 = createVector(bux + 50, buy + 90);
-  up4 = createVector(bux + 50, buy - 50);
+  bux = 3*width/4; buy = height/4;
+  up1 = createVector(bux - SZ, buy - SZ);
+  up2 = createVector(bux - SZ, buy + SZ*2);
+  up3 = createVector(bux + SZ, buy + SZ*2);
+  up4 = createVector(bux + SZ, buy - SZ);
   var ups = [];
   ups.push(up1);
   ups.push(up2);
@@ -60,7 +63,8 @@ function setup(){
 }
 
 function draw(){
-  background(0, 77, 102);
+  bgc();
+  // background(0, 77, 102);
   noFill();
 
   // flocking
@@ -92,7 +96,7 @@ function mouseMoved(){
       p = ps.ap[j];
       var dist = p5.Vector.dist(createVector(mouseX, mouseY), p);
 
-      if (dist < 5){
+      if (dist < 10){
         allowDrag = 1;
         curp = p;
         curl = ps;
@@ -116,4 +120,24 @@ function mouseDragged(){
     curp.x = mouseX;
     curp.y = mouseY;
   }
+}
+
+function bgc(){
+  noStroke();
+  var hb = 204;
+  var sect = height/GL;
+  var sb = 30;
+  var lb = 30;
+  colorMode(HSL, 360, 100, 100);
+
+  for (var i=0; i<GL; i++){
+    var h = hb;
+    var s = sb + i * (100-sb)/GL;
+    var l = lb + i * (100-lb)/GL;
+    fill(color(h, s, l));
+    var y1 = height-(i+1)*sect;
+    rect(0, y1, width, sect);
+  }
+
+  colorMode(RGB);
 }

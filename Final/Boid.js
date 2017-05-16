@@ -6,10 +6,13 @@ class Boid {
     this.vel = createVector(random(-1,1),random(-1,1));
     this.acc = createVector();
 
-    this.maxSpeed = 1; // max speed;
-    this.maxSteerForce = 0.01; // max steering force
-    this.separateDist = 100;
+    this.maxSpeed = 2; // max speed;
+    this.maxSteerForce = 0.02; // max steering force
+    this.separateDist = 50;
     this.neighbourDist = 100;
+
+    this.sepaCoef = 0.5;
+    this.neighbourCoef = 1;
     this.color = (random(100, 250), random(100, 250), random(100, 250));
   }
   update() {
@@ -28,9 +31,9 @@ class Boid {
     var seekForce = this.seek(target);
     var sepaForce = this.separate(others);
 
-    sepaForce.mult(2);
+    sepaForce.mult(this.sepaCoef);
 
-    this.applyForce(seekForce);
+    //this.applyForce(seekForce);
     this.applyForce(sepaForce);
   }
 
@@ -106,10 +109,12 @@ class Boid {
       this.pos.x = 0;
     }
     // y
-    if (this.pos.y < 0) {
-      this.pos.y = height;
+    if (this.pos.y < height-200) {
+      this.pos.y = height-200;
+      this.vel.y *= 1;
     } else if (this.pos.y > height) {
-      this.pos.y = 0;
+      this.pos.y = height;
+      this.vel.y *= 1;
     }
   }
   display() {
@@ -119,8 +124,8 @@ class Boid {
     rotate(this.angle);
     noStroke();
     fill(this.color);
-    ellipse(0, 0, 8, 4);
-    triangle(0, 0, -5, 2, -5, -2);
+    ellipse(0, 0, 16, 8);
+    triangle(0, 0, -10, 4, -10, -4);
     // triangle(0, 0, 5, 2, 5, -2);
     // colorMode(RGB, 100);
     pop();
