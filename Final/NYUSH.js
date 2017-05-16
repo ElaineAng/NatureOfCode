@@ -1,16 +1,20 @@
+const GL = 200;
+
 var N, Y, U;    // three letters that we control
 var curp, curl; // current point and current letter
 var allowDrag;
+var apts;
+
 
 function setup(){
   createCanvas(1000, 600);
-  background(0);
+  background(0, 77, 102);
   bnx = width/4; bny = height/2;
   np1 = createVector(bnx - 50, bny + 50);
   np2 = createVector(bnx - 50, bny - 50);
   np3 = createVector(bnx + 50, bny + 50);
   np4 = createVector(bnx + 50, bny - 50);
-  nps = [];
+  var nps = [];
   nps.push(np1);
   nps.push(np2);
   nps.push(np3);
@@ -21,7 +25,7 @@ function setup(){
   yp2 = createVector(byx + 50, byy - 50);
   yp3 = createVector(byx, byy + 60);
   yp4 = createVector(byx, byy);
-  yps = [];
+  var yps = [];
   yps.push(yp1);
   yps.push(yp2);
   yps.push(yp3);
@@ -32,7 +36,7 @@ function setup(){
   up2 = createVector(bux - 50, buy + 90);
   up3 = createVector(bux + 50, buy + 90);
   up4 = createVector(bux + 50, buy - 50);
-  ups = [];
+  var ups = [];
   ups.push(up1);
   ups.push(up2);
   ups.push(up3);
@@ -51,7 +55,7 @@ function setup(){
 }
 
 function draw(){
-  background(0);
+  background(0, 77, 102);
   noFill();
 
   stroke(255);
@@ -73,10 +77,6 @@ function mouseMoved(){
       var dist = p5.Vector.dist(createVector(mouseX, mouseY), p);
 
       if (dist < 5){
-
-        stroke(255, 0, 0);
-        noFill();
-        ellipse(p.x, p.y, 12, 12);
         allowDrag = 1;
         curp = p;
         curl = ps;

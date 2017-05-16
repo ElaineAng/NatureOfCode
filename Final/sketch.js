@@ -1,6 +1,5 @@
 const HD = 100;
 const NUM = 30;
-const GL = 200;
 
 var t, v;
 var RESOLUTION = 20;

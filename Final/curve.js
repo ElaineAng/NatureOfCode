@@ -21,12 +21,12 @@ class Curve{
   }
 
   normalMode(){
-    stroke(255);
+    stroke(153, 153, 255);
     strokeWeight(20);
   }
 
   controlMode(){
-    stroke(255, 0, 0);
+    stroke(0);
     strokeWeight(1);
     noFill();
   }
