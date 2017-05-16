@@ -17,7 +17,7 @@ class Curve{
       }
     }
     this.cur_point;
-    this.under_control = 1;
+    this.under_control = 0;
   }
 
   normalMode(){

@@ -1,6 +1,5 @@
-var N, Y, U;
-// var p1, p2, p3, p4, curp;
-var curp;
+var N, Y, U;    // three letters that we control
+var curp, curl; // current point and current letter
 var allowDrag;
 
 function setup(){
@@ -73,20 +72,31 @@ function mouseMoved(){
       p = ps.ap[j];
       var dist = p5.Vector.dist(createVector(mouseX, mouseY), p);
 
-      if (dist < 10){
+      if (dist < 5){
 
         stroke(255, 0, 0);
         noFill();
         ellipse(p.x, p.y, 12, 12);
         allowDrag = 1;
         curp = p;
+        curl = ps;
       }
     }
   }
 }
 
+function mouseClicked(){
+  for (var i=0; i<apts.length; i++){
+    apts[i].under_control = 0;
+  }
+  if (allowDrag){
+    curl.under_control = 1;
+  }
+}
+
 function mouseDragged(){
   if (allowDrag){
+
     curp.x = mouseX;
     curp.y = mouseY;
   }
