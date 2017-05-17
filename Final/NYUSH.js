@@ -1,7 +1,7 @@
 const BN = 20;
-const SZ = 55;
+const SZ = 50;
 const GL = 200;
-var STEPS = 10;
+const STEPS = 15;
 var boids = [];
 
 var N, Y, U, S, H;    // five letters that we control
@@ -47,8 +47,8 @@ function setup(){
 
   bsx = bux+SZ*3; bsy = height/4;
   sp1 = createVector(bsx + SZ, bsy - SZ);
-  sp2 = createVector(bsx - 2*SZ, bsy - SZ);
-  sp3 = createVector(bsx + 2*SZ, bsy + SZ);
+  sp2 = createVector(bsx - 2.5*SZ, bsy - SZ);
+  sp3 = createVector(bsx + 2.5*SZ, bsy + SZ);
   sp4 = createVector(bsx - SZ, bsy + SZ);
   var sps = [sp1, sp2, sp3, sp4];
 

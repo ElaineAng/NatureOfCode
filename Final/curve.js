@@ -25,8 +25,8 @@ class Curve{
   }
 
   controlMode(){
-    stroke(0, 0, 102);
-    strokeWeight(0.5);
+    stroke(0);
+    strokeWeight(1);
     noFill();
   }
 
@@ -111,7 +111,7 @@ class Curve{
 
       fill('rgba(87, 6, 140 ,0.5)');
       noStroke();
-      
+
       ellipse(cx, sin(cx), 20, 2*r);
 
     }
