@@ -9,7 +9,16 @@ var curp, curl; // current point and current letter
 var allowDrag;
 var apts;
 
-var torch, zongzi;
+var torch, bund;
+
+var gui = new dat.gui.GUI();
+
+var params = {
+  debugMode: false,
+  background: 220,
+}
+gui.add(params, "background").min(10).max(360);
+
 function setup(){
   createCanvas(1200, 600);
   // background(153, 221, 255);
@@ -124,7 +133,6 @@ function mouseClicked(){
 
 function mouseDragged(){
   if (allowDrag){
-
     curp.x = mouseX;
     curp.y = mouseY;
   }
@@ -132,7 +140,7 @@ function mouseDragged(){
 
 function bgc(){
   noStroke();
-  var hb = 220;
+  var hb = params.background;
   var sect = height/GL;
   var sb = 60;
   var lb = 60;
