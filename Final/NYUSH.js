@@ -1,7 +1,7 @@
 const BN = 20;
 const SZ = 55;
 const GL = 200;
-const STEPS = 10;
+var STEPS = 10;
 var boids = [];
 
 var N, Y, U, S, H;    // five letters that we control
@@ -62,7 +62,7 @@ function setup(){
 
   // setup for flocking
   for (var i = 0; i < BN; i++) {
-    boids.push(new Boid(width/2, height/2));
+    boids.push(new Boid(i));
   }
 
   torch = loadImage("torch3.png");
@@ -71,7 +71,7 @@ function setup(){
 
 function draw(){
   bgc();
-  image(bund, 0, height-620, width, bund.height*(width/bund.width));
+  image(bund, 0, height-630, width, bund.height*(width/bund.width));
   // background(153, 221, 255);
   noFill();
 

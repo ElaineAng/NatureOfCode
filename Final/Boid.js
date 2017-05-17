@@ -1,13 +1,13 @@
 "use strict";
 
 class Boid {
-  constructor(x, y) {
+  constructor(i) {
     this.pos = createVector(random(width), random(height));
     this.vel = createVector(random(-1,1),random(-1,1));
     this.acc = createVector();
 
     this.maxSpeed = 2; // max speed;
-    this.maxSteerForce = 0.02; // max steering force
+    this.maxSteerForce = 0.01; // max steering force
     this.separateDist = 150;
     this.neighbourDist = 20;
 
@@ -15,7 +15,8 @@ class Boid {
     this.neighbourCoef = 1;
     // this.color = (random(100, 250), random(100, 250), random(100, 250));
 
-    this.sizeCoef = random(0.1, 0.4);
+    this.sizeCoef = 0.2+(i/4*0.05);
+    this.allowMove = true;
   }
   update() {
     this.vel.add(this.acc);
@@ -35,7 +36,7 @@ class Boid {
 
     sepaForce.mult(this.sepaCoef);
 
-    //this.applyForce(seekForce);
+    // this.applyForce(seekForce);
     this.applyForce(sepaForce);
   }
 
@@ -123,12 +124,9 @@ class Boid {
   display() {
     push();
 
-
     translate(this.pos.x, this.pos.y);
     rotate(this.angle);
-    // noStroke();
-    // fill(0);
-    // ellipse(0, 0, 10, 10);
+
     image(torch, 0, 0, torch.width*this.sizeCoef, torch.height*this.sizeCoef);
     // noStroke();
     // fill(this.color);
