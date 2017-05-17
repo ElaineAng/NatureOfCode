@@ -16,7 +16,7 @@ class Curve{
         this.ap.push(p.copy());
       }
     }
-    this.under_control = 0;
+    this.under_control = false;
   }
 
   normalMode(){
@@ -111,7 +111,7 @@ class Curve{
 
       fill('rgba(87, 6, 140 ,0.5)');
       noStroke();
-
+      
       ellipse(cx, sin(cx), 20, 2*r);
 
     }

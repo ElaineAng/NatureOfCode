@@ -6,7 +6,8 @@ var boids = [];
 
 var N, Y, U, S, H;    // five letters that we control
 var curp, curl; // current point and current letter
-var allowDrag;
+var curt; //current torch;
+var allowDragLetter, allowDragTorch, allowRelease;
 var apts;
 
 var torch, bund;
@@ -67,15 +68,17 @@ function setup(){
   H = new Curve(hps, createVector(bhx, bhy), "H");
   apts = [N, Y, U, S, H];
 
-  allowDrag = 0;
+  allowDragLetter = false;
+  allowDragTorch = false;
+  allowRelease = false;
+
+  torch = loadImage("torch3.png");
+  bund = loadImage("bund3.png");
 
   // setup for flocking
   for (var i = 0; i < BN; i++) {
     boids.push(new Boid(i));
   }
-
-  torch = loadImage("torch3.png");
-  bund = loadImage("bund3.png");
 }
 
 function draw(){
@@ -104,9 +107,10 @@ function draw(){
 }
 
 function mouseMoved(){
-  var i, j, ps, p;
-  allowDrag = 0;
-
+  var i, j, ps, p, t;
+  allowDragLetter = false;
+  allowDragTorch = false;
+  allowRelease = false;
   for (i=0; i<apts.length; i++){
     ps = apts[i];
     for (j=0; j<ps.ap.length; j++){
@@ -114,27 +118,65 @@ function mouseMoved(){
       var dist = p5.Vector.dist(createVector(mouseX, mouseY), p);
 
       if (dist < 10){
-        allowDrag = 1;
+        allowDragLetter = true;
         curp = p;
         curl = ps;
       }
     }
   }
+
+  for (i=0; i<boids.length; i++){
+    t = boids[i]
+    var dist = p5.Vector.dist(createVector(mouseX, mouseY), t.pos);
+
+    if (dist < t.sizeCoef*torch.width && dist < t.sizeCoef*torch.height){
+      allowDragTorch = true;
+      allowRelease = true;
+      curt = t;
+    }
+  }
+
+  // if (allowRelease && keyPressed && keyCode == 32){
+  //   curt.allowMove = true;
+  // }
 }
 
+
+function keyPressed(){
+  if (keyCode == 68){
+    if (allowRelease){
+      curt.allowMove = true;
+    }
+  }
+}
 function mouseClicked(){
   for (var i=0; i<apts.length; i++){
-    apts[i].under_control = 0;
+    apts[i].under_control = false;
   }
-  if (allowDrag){
-    curl.under_control = 1;
+  if (allowDragLetter){
+    curl.under_control = true;
+  }
+
+  // for (var i=0; i<boids.length; i++){
+  //   boids[i].allowMove = true;
+  // }
+  if (allowDragTorch){
+    if (curt.allowMove){
+      curt.allowMove = false;
+    }
+
   }
 }
 
 function mouseDragged(){
-  if (allowDrag){
+  if (allowDragLetter){
     curp.x = mouseX;
     curp.y = mouseY;
+  }
+
+  if (allowDragTorch){
+    curt.pos.x = mouseX;
+    curt.pos.y = mouseY;
   }
 }
 

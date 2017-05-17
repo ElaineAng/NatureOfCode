@@ -17,13 +17,19 @@ class Boid {
 
     this.sizeCoef = 0.2+(i/4*0.05);
     this.allowMove = true;
+    this.angle = 0;
+
+    this.w = this.sizeCoef * torch.width;
+    this.h = this.sizeCoef * torch.height;
   }
   update() {
-    this.vel.add(this.acc);
-    this.vel.limit(this.maxSpeed); //***
-    this.pos.add(this.vel);
-    this.acc.mult(0);
-    this.angle = this.vel.heading();
+    if (this.allowMove){
+      this.vel.add(this.acc);
+      this.vel.limit(this.maxSpeed); //***
+      this.pos.add(this.vel);
+      this.acc.mult(0);
+      this.angle = this.vel.heading();
+    }
   }
   applyForce(force) {
     this.acc.add(force);
@@ -126,13 +132,11 @@ class Boid {
 
     translate(this.pos.x, this.pos.y);
     rotate(this.angle);
-
-    image(torch, 0, 0, torch.width*this.sizeCoef, torch.height*this.sizeCoef);
-    // noStroke();
-    // fill(this.color);
-    // ellipse(0, 0, 16, 8);
-    // triangle(0, 0, -10, 4, -10, -4);
-
+    var w = this.sizeCoef*torch.width;
+    var h = this.sizeCoef*torch.height
+    image(torch, 0-w/2, 0-h/2, w, h);
+    // fill(255);
+    // ellipse(0, 0, 10, 10);
     pop();
   }
 }
