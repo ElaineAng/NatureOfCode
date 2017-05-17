@@ -13,7 +13,9 @@ class Boid {
 
     this.sepaCoef = 0.5;
     this.neighbourCoef = 1;
-    this.color = (random(100, 250), random(100, 250), random(100, 250));
+    // this.color = (random(100, 250), random(100, 250), random(100, 250));
+
+    this.sizeCoef = random(0.1, 0.4);
   }
   update() {
     this.vel.add(this.acc);
@@ -125,9 +127,9 @@ class Boid {
     translate(this.pos.x, this.pos.y);
     rotate(this.angle);
     // noStroke();
-    // fill(this.color);
+    // fill(0);
     // ellipse(0, 0, 10, 10);
-    image(img, 0, 0, img.width*0.05, img.height*0.05);
+    image(torch, 0, 0, torch.width*this.sizeCoef, torch.height*this.sizeCoef);
     // noStroke();
     // fill(this.color);
     // ellipse(0, 0, 16, 8);

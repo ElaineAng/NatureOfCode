@@ -39,7 +39,7 @@ class Curve{
     if (this.letter == "N"){
       this.normalMode();
       for (var i=0; i<this.ap.length-1; i++){
-        this.fillPattern(this.ap[i], this.ap[i+1], 20);
+        this.fillPattern(this.ap[i], this.ap[i+1], STEPS);
       }
       if (this.under_control){
         this.controlMode();
@@ -49,9 +49,9 @@ class Curve{
       }
     } else if (this.letter == "Y"){
       this.normalMode();
-      this.fillPattern(this.ap[0], this.ap[3], 20);
-      this.fillPattern(this.ap[1], this.ap[3], 20);
-      this.fillPattern(this.ap[3], this.ap[2], 20);
+      this.fillPattern(this.ap[0], this.ap[3], STEPS);
+      this.fillPattern(this.ap[1], this.ap[3], STEPS);
+      this.fillPattern(this.ap[3], this.ap[2], STEPS);
 
       if (this.under_control){
         this.controlMode();
@@ -59,12 +59,11 @@ class Curve{
           this.drawControlPoints(this.ap[i]);
         }
       }
-    } else if (this.letter == "U"){
+    } else if (this.letter == "U" || this.letter == "S"){
       this.normalMode();
-      var steps = 20;
       var bp = [];
-      for (var i=0; i<=steps; i++){
-        var t = i/steps;
+      for (var i=0; i<=STEPS; i++){
+        var t = i/STEPS;
         var x = bezierPoint(this.ap[0].x, this.ap[1].x, this.ap[2].x, this.ap[3].x, t);
         var y = bezierPoint(this.ap[0].y, this.ap[1].y, this.ap[2].y, this.ap[3].y, t);
         bp.push(createVector(x,y));
@@ -79,6 +78,19 @@ class Curve{
         this.controlMode();
         line(this.ap[0].x, this.ap[0].y, this.ap[1].x, this.ap[1].y);
         line(this.ap[2].x, this.ap[2].y, this.ap[3].x, this.ap[3].y);
+        for (var i=0; i<this.ap.length; i++){
+          this.drawControlPoints(this.ap[i]);
+        }
+      }
+    } else if (this.letter == "H"){
+      this.normalMode();
+      this.fillPattern(this.ap[0], this.ap[1], STEPS);
+      this.fillPattern(this.ap[1], this.ap[2], STEPS);
+      this.fillPattern(this.ap[3], this.ap[4], STEPS);
+      this.fillPattern(this.ap[4], this.ap[5], STEPS);
+      this.fillPattern(this.ap[1], this.ap[4], STEPS);
+      if (this.under_control){
+        this.controlMode();
         for (var i=0; i<this.ap.length; i++){
           this.drawControlPoints(this.ap[i]);
         }
@@ -104,10 +116,12 @@ class Curve{
       var cx = r*(2*j+1);
       // line(cx, 0, cx*1.2, -5);
       // line(cx, 0, cx*1.2, 5);
-      fill('rgba(0, 77, 102, 0.5)');
+      // fill('rgba(0, 77, 102, 0.5)');
+      fill('rgba(87, 6, 140 ,0.5)');
       noStroke();
 
       ellipse(cx, sin(cx), random(15, 25), random(15, 25));
+      // image(torch, cx, 0, torch.width*0.05, torch.height*0.05)
 
 
       // triangle()
