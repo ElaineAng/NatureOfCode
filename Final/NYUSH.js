@@ -1,4 +1,4 @@
-const BN = 50;
+const BN = 20;
 const SZ = 60;
 const GL = 200;
 var boids = [];
@@ -8,6 +8,7 @@ var curp, curl; // current point and current letter
 var allowDrag;
 var apts;
 
+var img;
 function setup(){
   createCanvas(1200, 600);
   // background(0, 77, 102);
@@ -60,6 +61,8 @@ function setup(){
   for (var i = 0; i < BN; i++) {
     boids.push(new Boid(width/2, height/2));
   }
+
+  img = loadImage("torch.png");
 }
 
 function draw(){
@@ -124,7 +127,7 @@ function mouseDragged(){
 
 function bgc(){
   noStroke();
-  var hb = 204;
+  var hb = 260;
   var sect = height/GL;
   var sb = 30;
   var lb = 30;

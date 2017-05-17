@@ -8,8 +8,8 @@ class Boid {
 
     this.maxSpeed = 2; // max speed;
     this.maxSteerForce = 0.02; // max steering force
-    this.separateDist = 50;
-    this.neighbourDist = 100;
+    this.separateDist = 150;
+    this.neighbourDist = 20;
 
     this.sepaCoef = 0.5;
     this.neighbourCoef = 1;
@@ -109,25 +109,30 @@ class Boid {
       this.pos.x = 0;
     }
     // y
-    if (this.pos.y < height-200) {
-      this.pos.y = height-200;
-      this.vel.y *= 1;
-    } else if (this.pos.y > height) {
+    if (this.pos.y < 0) {
       this.pos.y = height;
-      this.vel.y *= 1;
+      // this.vel.mult(-1);
+
+    } else if (this.pos.y > height) {
+      this.pos.y = 0;
+      // this.vel.mult(-1);
     }
   }
   display() {
     push();
 
+
     translate(this.pos.x, this.pos.y);
     rotate(this.angle);
-    noStroke();
-    fill(this.color);
-    ellipse(0, 0, 16, 8);
-    triangle(0, 0, -10, 4, -10, -4);
-    // triangle(0, 0, 5, 2, 5, -2);
-    // colorMode(RGB, 100);
+    // noStroke();
+    // fill(this.color);
+    // ellipse(0, 0, 10, 10);
+    image(img, 0, 0, img.width*0.05, img.height*0.05);
+    // noStroke();
+    // fill(this.color);
+    // ellipse(0, 0, 16, 8);
+    // triangle(0, 0, -10, 4, -10, -4);
+
     pop();
   }
 }

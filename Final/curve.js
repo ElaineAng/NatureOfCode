@@ -16,7 +16,6 @@ class Curve{
         this.ap.push(p.copy());
       }
     }
-    this.cur_point;
     this.under_control = 0;
   }
 
@@ -30,29 +29,34 @@ class Curve{
     strokeWeight(0.5);
     noFill();
   }
+
+  drawControlPoints(p){
+    rect(p.x-2, p.y-2, 5, 5);
+  }
+
   display(){
 
     if (this.letter == "N"){
       this.normalMode();
       for (var i=0; i<this.ap.length-1; i++){
-        this.fill(this.ap[i], this.ap[i+1], 20);
+        this.fillPattern(this.ap[i], this.ap[i+1], 20);
       }
       if (this.under_control){
         this.controlMode();
         for (var i=0; i<this.ap.length; i++){
-          ellipse(this.ap[i].x, this.ap[i].y, 5, 5);
+          this.drawControlPoints(this.ap[i]);
         }
       }
     } else if (this.letter == "Y"){
       this.normalMode();
-      this.fill(this.ap[0], this.ap[3], 20);
-      this.fill(this.ap[1], this.ap[3], 20);
-      this.fill(this.ap[3], this.ap[2], 20);
+      this.fillPattern(this.ap[0], this.ap[3], 20);
+      this.fillPattern(this.ap[1], this.ap[3], 20);
+      this.fillPattern(this.ap[3], this.ap[2], 20);
 
       if (this.under_control){
         this.controlMode();
         for (var i=0; i<this.ap.length-1; i++){
-          ellipse(this.ap[i].x, this.ap[i].y, 5, 5);
+          this.drawControlPoints(this.ap[i]);
         }
       }
     } else if (this.letter == "U"){
@@ -66,7 +70,7 @@ class Curve{
         bp.push(createVector(x,y));
       }
       for (var i=0; i<bp.length-1; i++){
-        this.fill(bp[i], bp[i+1], 5);
+        this.fillPattern(bp[i], bp[i+1], 5);
       }
       // bezier(this.ap[0].x, this.ap[0].y, this.ap[1].x, this.ap[1].y,
         // this.ap[2].x, this.ap[2].y, this.ap[3].x, this.ap[3].y);
@@ -76,7 +80,7 @@ class Curve{
         line(this.ap[0].x, this.ap[0].y, this.ap[1].x, this.ap[1].y);
         line(this.ap[2].x, this.ap[2].y, this.ap[3].x, this.ap[3].y);
         for (var i=0; i<this.ap.length; i++){
-          ellipse(this.ap[i].x, this.ap[i].y, 5, 5);
+          this.drawControlPoints(this.ap[i]);
         }
       }
     }
@@ -88,7 +92,7 @@ class Curve{
     }
   }
 
-  fill(p1, p2, steps){
+  fillPattern(p1, p2, steps){
     // line(p1.x, p1.y, p2.x, p2.y);
     var dirVec = p5.Vector.sub(p2, p1);
     var r = dirVec.mag() / (2 * steps);
@@ -100,7 +104,12 @@ class Curve{
       var cx = r*(2*j+1);
       // line(cx, 0, cx*1.2, -5);
       // line(cx, 0, cx*1.2, 5);
-      ellipse(cx, 5*noise(cx, sin(cx)), 5, 5);
+      fill('rgba(0, 77, 102, 0.5)');
+      noStroke();
+
+      ellipse(cx, sin(cx), random(15, 25), random(15, 25));
+
+
       // triangle()
     }
     pop()
