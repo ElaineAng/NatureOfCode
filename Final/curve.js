@@ -55,7 +55,7 @@ class Curve{
 
       if (this.under_control){
         this.controlMode();
-        for (var i=0; i<this.ap.length-1; i++){
+        for (var i=0; i<this.ap.length; i++){
           this.drawControlPoints(this.ap[i]);
         }
       }
