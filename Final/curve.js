@@ -1,8 +1,7 @@
 "use strict";
 /*
- * N: 4 control points, an area for movement
- * Y: 3 control points, 1 point for location, an area for movement
- * U: 4 control points, an area for movement
+ * N, Y, U, S: 4 control points
+ * H: 6 control points
  */
 class Curve{
   constructor(ctrl_pts, pos, letter){
@@ -103,7 +102,7 @@ class Curve{
     var dirVec = p5.Vector.sub(p2, p1);
     var r = dirVec.mag() / (2 * steps);
     push()
-    // fill(random(150, 250), random(150, 250), random(150, 250));
+
     translate(p1.x, p1.y);
     rotate(dirVec.heading());
     for (var j=0; j<steps; j++){
@@ -111,9 +110,7 @@ class Curve{
 
       fill('rgba(87, 6, 140 ,0.5)');
       noStroke();
-
       ellipse(cx, sin(cx), 20, 2*r);
-
     }
     pop()
   }

@@ -22,7 +22,6 @@ gui.add(params, "background").min(10).max(360);
 
 function setup(){
   createCanvas(1200, 600);
-  // background(153, 221, 255);
   bgc();
   bnx = width/2-200; bny = height/4;
   np1 = createVector(bnx - SZ, bny + SZ);
@@ -84,7 +83,6 @@ function setup(){
 function draw(){
   bgc();
   image(bund, 0, height-630, width, bund.height*(width/bund.width));
-  // background(153, 221, 255);
   noFill();
 
   // flocking
@@ -135,10 +133,6 @@ function mouseMoved(){
       curt = t;
     }
   }
-
-  // if (allowRelease && keyPressed && keyCode == 32){
-  //   curt.allowMove = true;
-  // }
 }
 
 
@@ -157,9 +151,6 @@ function mouseClicked(){
     curl.under_control = true;
   }
 
-  // for (var i=0; i<boids.length; i++){
-  //   boids[i].allowMove = true;
-  // }
   if (allowDragTorch){
     if (curt.allowMove){
       curt.allowMove = false;

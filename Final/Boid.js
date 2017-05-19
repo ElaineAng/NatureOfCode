@@ -13,7 +13,6 @@ class Boid {
 
     this.sepaCoef = 0.5;
     this.neighbourCoef = 1;
-    // this.color = (random(100, 250), random(100, 250), random(100, 250));
 
     this.sizeCoef = 0.2+(i/4*0.05);
     this.allowMove = true;
@@ -83,7 +82,6 @@ class Boid {
         vector.setMag(this.maxSpeed);
         vector.sub(this.vel);
         vector.limit(this.maxSteerForce);
-        // this.applyForce(vector);
       }
       return vector;
   }
